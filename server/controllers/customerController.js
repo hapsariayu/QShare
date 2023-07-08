@@ -1,9 +1,10 @@
 const { verifPassword } = require("../helpers/bcrypt");
 const { encodeToken } = require("../helpers/jwt");
-const { Costumer, Order } = require("../models");
+const { Customer, Order } = require("../models");
 
 class customerController {
-  static async registerCostumer(req, res, next) {
+  static async registerCustomer(req, res, next) {
+    console.log("parkir");
     const { username, email, password } = req.body;
     try {
       if (!email || !password) throw { name: "Email or password is required" };
@@ -14,7 +15,7 @@ class customerController {
         password,
       };
 
-      let customer = await Costumer.create(newUser);
+      let customer = await Customer.create(newUser);
 
       res.status(201).json({
         message: `A new accout with email ${customer.email} has been created`,
@@ -39,11 +40,11 @@ class customerController {
     try {
       if (!email || !password) throw { name: "Email or password is required" };
 
-      const user = await Costumer.findOne({ where: { email } });
+      const user = await Customer.findOne({ where: { email } });
 
       if (!user) throw { name: "Invalid Email or Password" };
 
-      const confirmPassword = verifPassword(password);
+      const confirmPassword = verifPassword(password, user.password);
 
       if (!confirmPassword) throw { name: "Invalid Email or Password" };
 

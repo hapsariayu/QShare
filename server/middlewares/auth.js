@@ -1,5 +1,5 @@
 const { decodeToken } = require("../helpers/jwt");
-const { Costumer, Order } = require("../models");
+const { Customer, Order } = require("../models");
 
 async function authentication(req, res, next) {
   const access_token = req.headers.access_token;
@@ -8,7 +8,7 @@ async function authentication(req, res, next) {
 
     const payload = decodeToken(access_token);
 
-    const user = await Costumer.findByPk(payload.id);
+    const user = await Customer.findByPk(payload.id);
 
     if (!user) throw { name: "InvalidToken" };
 
