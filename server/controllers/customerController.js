@@ -6,6 +6,7 @@ class customerController {
   static async registerCustomer(req, res, next) {
     console.log("parkir");
     const { username, email, password } = req.body;
+    console.log(req.body);
     try {
       if (!email || !password) throw { name: "Email or password is required" };
 
